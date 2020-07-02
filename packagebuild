@@ -1,0 +1,38 @@
+#!/bin/bash
+set -e
+
+srcpkgdir="/package"
+cd "$srcpkgdir" || exit 1
+
+verstring=`head -n 1 "$srcpkgdir/debian/changelog"`
+srcpkgname=`echo "$verstring" | awk '{print $1}'`
+srcpkgversion=`echo "$verstring" | awk '{print $2}' | sed -e 's/(\(.*\))/\1/g'`
+srcpkgversiondirmangle=`echo "$srcpkgversion" | sed -e 's/~/-tilde-/g'`
+
+pkgdir="$srcpkgname-$srcpkgversiondirmangle"
+
+# Generate locale, if required it needs to be defined in $LOCALE env var.
+if [ -n "$LOCALE" ]; then
+  echo -e "Generating locale $LOCALE."
+  sed -i -e "s/# $LOCALE/$LOCALE/" /etc/locale.gen && \
+  locale-gen
+fi
+
+echo -e "Preparing package $srcpkgname-$srcpkgversiondirmangle for building."
+# Make sure we are up to date.
+apt-get update -qq
+
+# Rsync directory contents (trailing / forced).
+# Using --delete ensures that the directory tree will be clean.
+rsync -l -r --delete --exclude .git "$srcpkgdir/" "/srv/$pkgdir"
+
+# Build the package. See ~/.devscripts for building parameters in use.
+cd "/srv/$pkgdir" && \
+  echo -e "Installing package dependencies..." && \
+  mk-build-deps -t "apt-get -y --no-install-recommends -qq" -i "debian/control" && \
+  echo -e "Building the package" && \
+  debuild "$@" && \
+  find ../ -maxdepth 1 -type f -exec mv {} "$srcpkgdir" \; && \
+  echo -e "\nPackage $srcpkgname-$srcpkgversiondirmangle has been built, generated files have been placed in your local package directory."
+
+
