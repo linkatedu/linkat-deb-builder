@@ -35,8 +35,8 @@ pipeline {
            sh 'rm source -rf; mkdir source'
            dir ('source') {
              git branch: 'master',
-               credentialsId: '230290d6-6575-4b70-82fd-01775893aae8',
-               url: 'https://github.com/linkatedu/linkat-flatpak-18.04.git'
+               credentialsId: 'xxxxxxxxxxxxxxxxxxxxx',
+               url: 'https://github.com/deb-package-source-example.git'
             }
         }
     }
