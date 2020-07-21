@@ -11,12 +11,6 @@ srcpkgversiondirmangle=`echo "$srcpkgversion" | sed -e 's/~/-tilde-/g'`
 
 pkgdir="$srcpkgname-$srcpkgversiondirmangle"
 
-
-
-gpg2 --list-keys
-
-
-
 # Generate locale, if required it needs to be defined in $LOCALE env var.
 if [ -n "$LOCALE" ]; then
   echo -e "Generating locale $LOCALE."
@@ -31,6 +25,10 @@ apt-get update -qq
 # Rsync directory contents (trailing / forced).
 # Using --delete ensures that the directory tree will be clean.
 rsync -l -r --delete --exclude .git "$srcpkgdir/" "/srv/$pkgdir"
+
+# GPG
+gpg2 -v --import <(echo "$LAUNCHPAD_GPG_PRIVATE_KEY")
+
 
 # Build the package. See ~/.devscripts for building parameters in use.
 cd "/srv/$pkgdir" && \
