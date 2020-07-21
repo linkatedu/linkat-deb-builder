@@ -27,8 +27,7 @@ apt-get update -qq
 rsync -l -r --delete --exclude .git "$srcpkgdir/" "/srv/$pkgdir"
 
 # GPG
-gpg2 -v --import <(echo "$LAUNCHPAD_GPG_PRIVATE_KEY")
-
+chmod 777 /root/.gnupg
 
 # Build the package. See ~/.devscripts for building parameters in use.
 cd "/srv/$pkgdir" && \
