@@ -21,7 +21,7 @@ fi
 echo -e "Preparing package $srcpkgname-$srcpkgversiondirmangle for building."
 # Make sure we are up to date.
 apt-get update -qq
-
+apt-get -qq install --yes gnupg2 
 # Rsync directory contents (trailing / forced).
 # Using --delete ensures that the directory tree will be clean.
 rsync -l -r --delete --exclude .git "$srcpkgdir/" "/srv/$pkgdir"
