@@ -10,7 +10,7 @@ srcpkgversion=`echo "$verstring" | awk '{print $2}' | sed -e 's/(\(.*\))/\1/g'`
 srcpkgversiondirmangle=`echo "$srcpkgversion" | sed -e 's/~/-tilde-/g'`
 
 pkgdir="$srcpkgname-$srcpkgversiondirmangle"
-
+gpg --list-keys
 # Generate locale, if required it needs to be defined in $LOCALE env var.
 if [ -n "$LOCALE" ]; then
   echo -e "Generating locale $LOCALE."
@@ -21,7 +21,6 @@ fi
 echo -e "Preparing package $srcpkgname-$srcpkgversiondirmangle for building."
 # Make sure we are up to date.
 apt-get update -qq
-apt-get -qq install --yes gnupg2 
 # Rsync directory contents (trailing / forced).
 # Using --delete ensures that the directory tree will be clean.
 rsync -l -r --delete --exclude .git "$srcpkgdir/" "/srv/$pkgdir"
