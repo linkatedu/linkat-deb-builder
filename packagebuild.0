@@ -4,7 +4,7 @@ set -e
 srcpkgdir="/package"
 cd "$srcpkgdir" || exit 1
 
-verstring=`head -n 1 "$srcpkgdir/source/debian/changelog"`
+verstring=`head -n 1 "$srcpkgdir/debian/changelog"`
 srcpkgname=`echo "$verstring" | awk '{print $1}'`
 srcpkgversion=`echo "$verstring" | awk '{print $2}' | sed -e 's/(\(.*\))/\1/g'`
 srcpkgversiondirmangle=`echo "$srcpkgversion" | sed -e 's/~/-tilde-/g'`
