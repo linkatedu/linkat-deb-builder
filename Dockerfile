@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   equivs \
   rsync \
   locales \
+  gnupg2 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
