@@ -10,7 +10,12 @@ srcpkgversion=`echo "$verstring" | awk '{print $2}' | sed -e 's/(\(.*\))/\1/g'`
 srcpkgversiondirmangle=`echo "$srcpkgversion" | sed -e 's/~/-tilde-/g'`
 
 pkgdir="$srcpkgname-$srcpkgversiondirmangle"
+
+export GPG_TTY="$(tty)"
+gpg --import /keys/linkat-deb-builder.key
 gpg --list-keys
+
+
 # Generate locale, if required it needs to be defined in $LOCALE env var.
 if [ -n "$LOCALE" ]; then
   echo -e "Generating locale $LOCALE."
