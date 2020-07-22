@@ -31,8 +31,6 @@ apt-get update -qq
 # Using --delete ensures that the directory tree will be clean.
 rsync -l -r --delete --exclude .git "$srcpkgdir/" "/srv/$pkgdir"
 
-# GPG
-chmod 777 /root/.gnupg
 
 # Build the package. See ~/.devscripts for building parameters in use.
 cd "/srv/$pkgdir" && \
