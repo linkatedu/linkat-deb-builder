@@ -13,7 +13,7 @@ pkgdir="$srcpkgname-$srcpkgversiondirmangle"
 
 export GPG_TTY="$(tty)"
 gpg --import /keys/linkat-deb-builder.key
-echo "Mostrat claus GPG importades..."
+echo "Mostra claus GPG importades..."
 gpg --list-keys
 
 
@@ -40,3 +40,7 @@ cd "/srv/$pkgdir" && \
   debuild "$@" && \
   find ../ -maxdepth 1 -type f -exec mv {} "$srcpkgdir" \; && \
   echo -e "\nPackage $srcpkgname-$srcpkgversiondirmangle has been built, generated files have been placed in your local package directory."
+
+debpackage=("$srcpkgdir/"*.deb)
+export GPG_TTY="$(tty)"
+debsigs --sign=origin -k E9507F32D9A1441FC180801C57BE6D2D31B64393 $debpackage
