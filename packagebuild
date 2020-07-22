@@ -13,6 +13,7 @@ pkgdir="$srcpkgname-$srcpkgversiondirmangle"
 
 export GPG_TTY="$(tty)"
 gpg --import /keys/linkat-deb-builder.key
+echo "Mostrat claus GPG importades..."
 gpg --list-keys
 
 
