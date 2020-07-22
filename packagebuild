@@ -42,7 +42,3 @@ cd "/srv/$pkgdir" && \
   debuild "$@" && \
   find ../ -maxdepth 1 -type f -exec mv {} "$srcpkgdir" \; && \
   echo -e "\nPackage $srcpkgname-$srcpkgversiondirmangle has been built, generated files have been placed in your local package directory."
-
-# Sign package
-export GPG_TTY=$(tty)
-debsigs --sign=origin -k F3F639A3101346694C0E02A2F321FCE1C47DB054 *.deb
