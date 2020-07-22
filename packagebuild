@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-srcpkgdir="/package"
+srcpkgdir="/package/source"
 cd "$srcpkgdir" || exit 1
 
 verstring=`head -n 1 "$srcpkgdir/debian/changelog"`
